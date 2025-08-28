@@ -24,8 +24,10 @@
             padding: 0;
         }
 
-        html {
-            scroll-behavior: smooth;
+        @media (prefers-reduced-motion: no-preference) {
+            html {
+                scroll-behavior: smooth;
+            }
         }
 
         body {
@@ -55,23 +57,21 @@
             100% { background-position-y: 200px; }
         }
 
+        /* --- Estructura Mobile-First --- */
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
             display: flex;
+            flex-direction: column; /* Estilo base para móviles */
         }
 
         .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 250px;
-            padding: 2rem;
-            border-right: 1px solid var(--border-color);
-            background: var(--bg-color);
-            z-index: 100;
+            width: 100%;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color); /* Borde para la vista móvil */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
         }
 
         .sidebar h2 {
@@ -79,27 +79,48 @@
             font-size: 1.2rem;
             margin-bottom: 1rem;
             text-shadow: 0 0 5px var(--neon-cyan);
+            width: 100%;
+            text-align: center;
         }
 
-        .sidebar nav ul { list-style: none; }
+        .sidebar nav ul { 
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem 1rem;
+        }
         .sidebar nav ul li a {
             color: var(--primary-text);
             text-decoration: none;
             display: block;
-            padding: 0.5rem 0;
+            padding: 0.5rem;
             transition: all 0.3s ease;
         }
         .sidebar nav ul li a:hover,
         .sidebar nav ul li a.active {
             color: var(--neon-green);
             text-shadow: 0 0 5px var(--neon-green);
-            transform: translateX(5px);
+            transform: scale(1.1);
         }
 
-        .main-content { margin-left: 250px; width: 100%; }
-        header { text-align: center; margin-bottom: 4rem; }
+        .sidebar .page-views {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--primary-text);
+        }
+        .sidebar .page-views span {
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        .main-content {
+             width: 100%; 
+        }
+
+        header { text-align: center; margin-bottom: 3rem; }
         .main-title {
-            font-size: 2.5rem;
+            font-size: 1.8rem; /* Tamaño para móvil */
             color: var(--neon-green);
             text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
             white-space: nowrap;
@@ -120,10 +141,10 @@
         }
         
         .section {
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 2rem;
+            padding: 1.5rem;
             background-color: rgba(22, 27, 34, 0.5);
             opacity: 0;
             transform: translateY(20px);
@@ -132,7 +153,7 @@
         .section.visible { opacity: 1; transform: translateY(0); }
         .section-title {
             color: var(--neon-cyan);
-            font-size: 1.8rem;
+            font-size: 1.5rem; /* Tamaño para móvil */
             margin-bottom: 1.5rem;
             border-bottom: 2px solid var(--neon-cyan);
             padding-bottom: 0.5rem;
@@ -142,7 +163,7 @@
         
         .command-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
         }
         
@@ -170,6 +191,7 @@
             display: block;
             margin-bottom: 1rem;
             white-space: pre-wrap;
+            word-break: break-all;
         }
         .command-card p { margin-bottom: 1rem; }
         .command-card .example {
@@ -201,31 +223,60 @@
         }
         .back-to-top:hover { opacity: 1; transform: scale(1.1); }
         
-        @media (max-width: 1200px) {
-            .container { flex-direction: column; }
-            .sidebar {
-                position: static;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+        /* --- Media Query para tabletas --- */
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem;
             }
-            .sidebar h2 { width: 100%; text-align: center; }
-            .sidebar nav ul {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
+            .main-title { 
+                font-size: 2.5rem; /* Aumenta el tamaño en pantallas más grandes */
             }
-            .main-content { margin-left: 0; padding-top: 2rem; }
+            .section-title { 
+                font-size: 1.8rem; 
+            }
         }
-        
-        @media (max-width: 768px) {
-            .main-title { font-size: 1.8rem; }
-            .section-title { font-size: 1.5rem; }
+
+        /* --- Media Query para escritorios --- */
+        @media (min-width: 1200px) {
+            .container {
+                flex-direction: row; /* Cambia a layout horizontal */
+                max-width: 1200px;
+                margin: 0 auto;
+                gap: 2rem;
+            }
+            .sidebar {
+                position: fixed; /* Fija el sidebar */
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 250px;
+                padding: 2rem;
+                border-right: 1px solid var(--border-color);
+                border-bottom: none;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 0;
+                z-index: 100;
+            }
+            .sidebar h2 {
+                text-align: left;
+            }
+            .sidebar nav ul {
+                flex-direction: column; /* Apila los links verticalmente */
+                gap: 0;
+                align-items: flex-start;
+            }
+            .sidebar nav ul li a:hover {
+                transform: translateX(5px);
+            }
+            .sidebar .page-views {
+                position: absolute;
+                bottom: 2rem;
+            }
+            .main-content {
+                margin-left: 250px; /* Crea espacio para el sidebar fijo */
+                width: calc(100% - 250px);
+            }
         }
     </style>
 </head>
@@ -233,7 +284,7 @@
 
     <div class="container">
         <aside class="sidebar">
-             <h2><span class="prompt">></span> Menú Rápido</h2>
+            <h2><span class="prompt">></span> Menú Rápido</h2>
             <nav>
                 <ul>
                     <li><a href="#entorno" class="nav-link">1. Entorno</a></li>
@@ -440,7 +491,7 @@
         </main>
     </div>
 
-    <button class="back-to-top" onclick="scrollToTop()">▲</button>
+    <button class="back-to-top" onclick="scrollToTop()" aria-label="Volver arriba">▲</button>
     
     <script>
         // --- Animación de Scroll para las secciones ---
@@ -469,7 +520,7 @@
             let current = '';
             contentSections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 60) {
+                if (pageYOffset >= sectionTop - 150) { // Offset ajustado para mejor detección
                     current = section.getAttribute('id');
                 }
             });
