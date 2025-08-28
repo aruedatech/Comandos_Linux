@@ -37,7 +37,6 @@
             background-image: linear-gradient(rgba(13, 17, 23, 0.95), rgba(13, 17, 23, 0.95)), url('https://www.transparenttextures.com/patterns/cubes.png');
         }
         
-        /* Efecto de líneas de escaneo (Scanlines) */
         body::after {
             content: "";
             position: fixed;
@@ -56,7 +55,6 @@
             100% { background-position-y: 200px; }
         }
 
-        /* --- Contenedor Principal y Layout --- */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -64,7 +62,6 @@
             display: flex;
         }
 
-        /* --- Menú de Navegación Lateral --- */
         .sidebar {
             position: fixed;
             top: 0;
@@ -84,10 +81,7 @@
             text-shadow: 0 0 5px var(--neon-cyan);
         }
 
-        .sidebar nav ul {
-            list-style: none;
-        }
-
+        .sidebar nav ul { list-style: none; }
         .sidebar nav ul li a {
             color: var(--primary-text);
             text-decoration: none;
@@ -95,7 +89,6 @@
             padding: 0.5rem 0;
             transition: all 0.3s ease;
         }
-
         .sidebar nav ul li a:hover,
         .sidebar nav ul li a.active {
             color: var(--neon-green);
@@ -103,18 +96,8 @@
             transform: translateX(5px);
         }
 
-        /* --- Contenido Principal --- */
-        .main-content {
-            margin-left: 250px;
-            width: 100%;
-        }
-
-        /* --- Header y Título --- */
-        header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
+        .main-content { margin-left: 250px; width: 100%; }
+        header { text-align: center; margin-bottom: 4rem; }
         .main-title {
             font-size: 2.5rem;
             color: var(--neon-green);
@@ -127,7 +110,6 @@
             display: inline-block;
         }
 
-        /* Animación de escritura */
         @keyframes typing {
             from { width: 0 }
             to { width: 100% }
@@ -137,23 +119,17 @@
             50% { border-color: var(--neon-green); }
         }
         
-        /* --- Estructura de las Secciones --- */
         .section {
             margin-bottom: 4rem;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 2rem;
             background-color: rgba(22, 27, 34, 0.5);
-            opacity: 0; /* Inicialmente invisible para animación */
+            opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        .section.visible { opacity: 1; transform: translateY(0); }
         .section-title {
             color: var(--neon-cyan);
             font-size: 1.8rem;
@@ -164,7 +140,6 @@
             text-shadow: 0 0 8px var(--neon-cyan);
         }
         
-        /* --- Tarjetas de Comandos --- */
         .command-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -180,13 +155,11 @@
             position: relative;
             overflow: hidden;
         }
-
         .command-card:hover {
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 0 15px var(--neon-green);
             border-color: var(--neon-green);
         }
-
         .command {
             font-family: 'Fira Code', monospace;
             background-color: #010409;
@@ -196,13 +169,9 @@
             font-weight: bold;
             display: block;
             margin-bottom: 1rem;
-            white-space: pre-wrap; /* Para comandos largos */
+            white-space: pre-wrap;
         }
-        
-        .command-card p {
-            margin-bottom: 1rem;
-        }
-        
+        .command-card p { margin-bottom: 1rem; }
         .command-card .example {
             font-style: italic;
             color: #8b949e;
@@ -211,7 +180,6 @@
             margin-top: 1rem;
         }
 
-        /* --- Botón para volver arriba --- */
         .back-to-top {
             position: fixed;
             bottom: 20px;
@@ -224,24 +192,17 @@
             height: 50px;
             font-size: 24px;
             cursor: pointer;
-            display: none; /* Oculto por defecto */
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 100;
             opacity: 0.8;
             transition: opacity 0.3s, transform 0.3s;
         }
-
-        .back-to-top:hover {
-            opacity: 1;
-            transform: scale(1.1);
-        }
+        .back-to-top:hover { opacity: 1; transform: scale(1.1); }
         
-        /* Media Queries para Responsividad */
         @media (max-width: 1200px) {
-            .container {
-                flex-direction: column;
-            }
+            .container { flex-direction: column; }
             .sidebar {
                 position: static;
                 width: 100%;
@@ -252,38 +213,27 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            .sidebar h2 {
-                width: 100%;
-                text-align: center;
-            }
+            .sidebar h2 { width: 100%; text-align: center; }
             .sidebar nav ul {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 1rem;
             }
-            .main-content {
-                margin-left: 0;
-                padding-top: 2rem;
-            }
+            .main-content { margin-left: 0; padding-top: 2rem; }
         }
         
         @media (max-width: 768px) {
-            .main-title {
-                font-size: 1.8rem;
-            }
-            .section-title {
-                font-size: 1.5rem;
-            }
+            .main-title { font-size: 1.8rem; }
+            .section-title { font-size: 1.5rem; }
         }
-
     </style>
 </head>
 <body>
 
     <div class="container">
         <aside class="sidebar">
-            <h2><span class="prompt">></span> Menú Rápido</h2>
+             <h2><span class="prompt">></span> Menú Rápido</h2>
             <nav>
                 <ul>
                     <li><a href="#entorno" class="nav-link">1. Entorno</a></li>
@@ -301,8 +251,9 @@
         <main class="main-content">
             <header>
                 <h1 class="main-title">📘 Guía de Comandos Linux</h1>
+                <p>Vistas: <span id="contador-vistas" style="color: var(--neon-green);">cargando...</span></p>
             </header>
-
+            
             <section id="entorno" class="section">
                 <h2 class="section-title">1. Acceso y preparación del entorno</h2>
                 <div class="command-grid">
@@ -502,29 +453,19 @@
                 }
             });
         }, { threshold: 0.1 });
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        sections.forEach(section => { observer.observe(section); });
 
         // --- Botón "Volver Arriba" ---
         const backToTopButton = document.querySelector('.back-to-top');
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.style.display = 'flex';
-            } else {
-                backToTopButton.style.display = 'none';
-            }
+            if (window.pageYOffset > 300) { backToTopButton.style.display = 'flex'; } 
+            else { backToTopButton.style.display = 'none'; }
         });
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         
         // --- Indicador de sección activa en el menú ---
         const navLinks = document.querySelectorAll('.nav-link');
         const contentSections = document.querySelectorAll('.section');
-        
         window.addEventListener('scroll', () => {
             let current = '';
             contentSections.forEach(section => {
@@ -533,7 +474,6 @@
                     current = section.getAttribute('id');
                 }
             });
-            
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').includes(current)) {
@@ -541,7 +481,28 @@
                 }
             });
         });
+    </script>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const namespace = 'guia-linux-2025-site'; // Un nombre único para tu proyecto
+        const key = 'pageviews';
+        const contadorElemento = document.getElementById('contador-vistas');
+
+        fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+            .then(response => response.json())
+            .then(data => {
+                if (contadorElemento) {
+                    contadorElemento.textContent = data.value;
+                }
+            })
+            .catch(error => {
+                if (contadorElemento) {
+                    contadorElemento.textContent = 'error';
+                }
+                console.error('Error al contactar la API del contador:', error);
+            });
+    });
     </script>
 </body>
 </html>
