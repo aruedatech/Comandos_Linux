@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Rápida de Comandos Linux | 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Estilos Globales y Tema --- */
+        :root {
+            --bg-color: #0d1117;
+            --primary-text: #c9d1d9;
+            --neon-green: #39ff14;
+            --neon-cyan: #00e5ff;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(13, 17, 23, 0.95), rgba(13, 17, 23, 0.95)), url('https://www.transparenttextures.com/patterns/cubes.png');
+        }
+        
+        /* Efecto de líneas de escaneo (Scanlines) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.3) 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 1000;
+            animation: scanline 10s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { background-position-y: 0; }
+            100% { background-position-y: 200px; }
+        }
+
+        /* --- Contenedor Principal y Layout --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+        }
+
+        /* --- Menú de Navegación Lateral --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            padding: 2rem;
+            border-right: 1px solid var(--border-color);
+            background: var(--bg-color);
+            z-index: 100;
+        }
+
+        .sidebar h2 {
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li a {
+            color: var(--primary-text);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            color: var(--neon-green);
+            text-shadow: 0 0 5px var(--neon-green);
+            transform: translateX(5px);
+        }
+
+        /* --- Contenido Principal --- */
+        .main-content {
+            margin-left: 250px;
+            width: 100%;
+        }
+
+        /* --- Header y Título --- */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid var(--neon-green);
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+            margin: 0 auto;
+            display: inline-block;
+        }
+
+        /* Animación de escritura */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--neon-green); }
+        }
+        
+        /* --- Estructura de las Secciones --- */
+        .section {
+            margin-bottom: 4rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            background-color: rgba(22, 27, 34, 0.5);
+            opacity: 0; /* Inicialmente invisible para animación */
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            color: var(--neon-cyan);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--neon-cyan);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        /* --- Tarjetas de Comandos --- */
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .command-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 15px var(--neon-green);
+            border-color: var(--neon-green);
+        }
+
+        .command {
+            font-family: 'Fira Code', monospace;
+            background-color: #010409;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            color: var(--neon-green);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 1rem;
+            white-space: pre-wrap; /* Para comandos largos */
+        }
+        
+        .command-card p {
+            margin-bottom: 1rem;
+        }
+        
+        .command-card .example {
+            font-style: italic;
+            color: #8b949e;
+            border-left: 3px solid var(--neon-cyan);
+            padding-left: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* --- Botón para volver arriba --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--neon-green);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            display: none; /* Oculto por defecto */
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0.8;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .back-to-top:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        /* Media Queries para Responsividad */
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sidebar h2 {
+                width: 100%;
+                text-align: center;
+            }
+            .sidebar nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .main-content {
+                margin-left: 0;
+                padding-top: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 1.8rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2><span class="prompt">></span> Menú Rápido</h2>
+            <nav>
+                <ul>
+                    <li><a href="#entorno" class="nav-link">1. Entorno</a></li>
+                    <li><a href="#navegacion" class="nav-link">2. Navegación</a></li>
+                    <li><a href="#archivos" class="nav-link">3. Archivos</a></li>
+                    <li><a href="#visualizar" class="nav-link">4. Visualizar</a></li>
+                    <li><a href="#redireccion" class="nav-link">5. Redirección</a></li>
+                    <li><a href="#ayuda" class="nav-link">6. Ayuda</a></li>
+                    <li><a href="#compresion" class="nav-link">7. Compresión</a></li>
+                    <li><a href="#vi" class="nav-link">8. Editor Vi</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1 class="main-title">📘 Guía de Comandos Linux</h1>
+            </header>
+
+            <section id="entorno" class="section">
+                <h2 class="section-title">1. Acceso y preparación del entorno</h2>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <h3>Instalar VirtualBox y Ubuntu</h3>
+                        <p>Necesario para crear una máquina virtual con Linux y tener un entorno seguro para practicar.</p>
+                    </div>
+                    <div class="command-card">
+                        <h3>Abrir la terminal</h3>
+                        <p>Atajo principal y el más rápido:</p>
+                        <code class="command">Ctrl + Alt + T</code>
+                        <p>Otras formas: Click derecho en escritorio → "Abrir terminal" o buscarlo en aplicaciones.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="navegacion" class="section">
+                <h2 class="section-title">2. Comandos básicos de navegación</h2>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <code class="command">pwd</code>
+                        <p>Muestra la ruta del directorio actual (Print Working Directory).</p>
+                        <p class="example">Ej: /home/usuario/Documentos</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">ls</code>
+                        <p>Lista archivos y carpetas del directorio actual.</p>
+                        <p>-l → Lista detallada (permisos, tamaño, fecha).<br>-la → Incluye archivos ocultos.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">cd nombre_carpeta</code>
+                        <p>Cambia de directorio (Change Directory). Entra a la carpeta especificada.</p>
+                        <p><code>cd ..</code> → Subir al directorio padre.<br><code>cd .</code> → Directorio actual.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">clear</code>
+                        <p>Limpia toda la pantalla de la terminal.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">whoami</code>
+                        <p>Muestra el nombre del usuario que ha iniciado sesión.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="archivos" class="section">
+                <h2 class="section-title">3. Manejo de archivos y carpetas</h2>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <code class="command">mkdir nueva_carpeta</code>
+                        <p>Crea una nueva carpeta (Make Directory).</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">rmdir carpeta</code>
+                        <p>Borra una carpeta, pero solo si está vacía.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">rm -R carpeta</code>
+                        <p>Borra una carpeta y todo su contenido de forma recursiva. ¡Con cuidado!</p>
+                    </div>
+                     <div class="command-card">
+                        <code class="command">touch archivo.txt</code>
+                        <p>Crea un archivo vacío o actualiza su fecha de modificación si ya existe.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">cp origen destino</code>
+                        <p>Copia un archivo (Copy).<br><code>cp -R dir1 dir2</code> → Copia un directorio completo.</p>
+                        <p class="example">Ej: cp notas.txt respaldo/notas_v2.txt</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">mv origen destino</code>
+                        <p>Mueve o renombra un archivo/carpeta (Move).</p>
+                        <p class="example">Ej: mv notas.txt tareas.txt</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="visualizar" class="section">
+                <h2 class="section-title">4. Visualizar contenido de archivos</h2>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <code class="command">cat archivo.txt</code>
+                        <p>Muestra el contenido completo de un archivo en la terminal.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">head -n 5 archivo.txt</code>
+                        <p>Muestra las primeras líneas de un archivo. Por defecto son 10.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">tail -n 20 archivo.txt</code>
+                        <p>Muestra las últimas líneas de un archivo. Por defecto son 10.</p>
+                    </div>
+                    <div class="command-card">
+                        <code class="command">less archivo.txt</code>
+                        <p>Permite ver el contenido de un archivo de forma paginada. Usa ↑ ↓ para navegar y 'q' para salir.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="redireccion" class="section">
+                <h2 class="section-title">5. Redirección y Comodines</h2>
+                 <div class="command-grid">
+                    <div class="command-card">
+                        <h3>Redirección</h3>
+                        <code class="command">echo "Hola" > saludo.txt</code>
+                        <p>Crea un archivo con el texto. Si el archivo existe, lo sobrescribe.</p>
+                        <code class="command">echo "Mundo" >> saludo.txt</code>
+                        <p>Agrega el texto al final de un archivo existente (append).</p>
+                    </div>
+                    <div class="command-card">
+                        <h3>Comodines</h3>
+                        <p><code>*</code> → Representa cualquier número de caracteres.</p>
+                        <p class="example">ls doc*.txt → doc1.txt, documento.txt</p>
+                        <p><code>?</code> → Representa un solo carácter.</p>
+                        <p class="example">ls foto?.jpg → foto1.jpg, fotoA.jpg</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="ayuda" class="section">
+                <h2 class="section-title">6. Manuales y Ayuda</h2>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <code class="command">man comando</code>
+                        <p>Muestra el manual completo de un comando.</p>
+                        <p class="example">Ej: man ls</p>
+                    </div>
+                     <div class="command-card">
+                        <code class="command">comando --help</code>
+                        <p>Muestra una ayuda rápida y resumida del comando.</p>
+                        <p class="example">Ej: date --help</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="compresion" class="section">
+                 <h2 class="section-title">7. Compresión y Descompresión</h2>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <h3>Con zip/unzip</h3>
+                        <code class="command">zip archivo.zip archivo.txt</code>
+                        <p>Comprimir un archivo.</p>
+                        <code class="command">zip -R carpeta.zip carpeta/</code>
+                        <p>Comprimir una carpeta recursivamente.</p>
+                        <code class="command">unzip archivo.zip</code>
+                        <p>Descomprimir un archivo.</p>
+                    </div>
+                    <div class="command-card">
+                        <h3>Con tar</h3>
+                        <code class="command">tar -czf archivo.tar.gz carpeta/</code>
+                        <p>Comprimir (c: crear, z: gzip, f: archivo).</p>
+                        <code class="command">tar -xzf archivo.tar.gz</code>
+                        <p>Extraer (x: extraer).</p>
+                        <p class="example">tar -cvzf copia.tar.gz Documentos/ (v: muestra proceso)</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="vi" class="section">
+                <h2 class="section-title">8. Editor de texto vi</h2>
+                <p>Vi es un editor de texto muy potente que funciona en la terminal. Se maneja por modos.</p>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <h3>Modos</h3>
+                        <p><b>Modo Comando:</b> Por defecto. Para navegar y ejecutar comandos.</p>
+                        <p><b>Modo Inserción:</b> Se activa con <code>i</code> (insertar antes) o <code>a</code> (insertar después). Se sale con <code>Esc</code>.</p>
+                    </div>
+                    <div class="command-card">
+                        <h3>Guardar y Salir</h3>
+                        <code class="command">:w</code><p>Guardar (Write).</p>
+                        <code class="command">:q</code><p>Salir (Quit).</p>
+                        <code class="command">:wq</code><p>Guardar y Salir.</p>
+                        <code class="command">:q!</code><p>Salir sin guardar cambios.</p>
+                    </div>
+                    <div class="command-card">
+                        <h3>Borrar y Copiar/Pegar</h3>
+                        <p><code>x</code> → Borra carácter.<br><code>dd</code> → Borra línea completa.<br><code>yy</code> → Copia línea completa.<br><code>p</code> → Pega debajo del cursor.</p>
+                    </div>
+                     <div class="command-card">
+                        <h3>Navegación</h3>
+                        <p><code>G</code> → Ir al final del archivo.<br><code>1G</code> → Ir al inicio.<br><code>/palabra</code> → Buscar 'palabra'.<br><code>n</code> → Siguiente coincidencia.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <button class="back-to-top" onclick="scrollToTop()">▲</button>
+    
+    <script>
+        // --- Animación de Scroll para las secciones ---
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Botón "Volver Arriba" ---
+        const backToTopButton = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // --- Indicador de sección activa en el menú ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.section');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            contentSections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
