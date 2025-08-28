@@ -120,7 +120,7 @@
 
         header { text-align: center; margin-bottom: 3rem; }
         .main-title {
-            font-size: 1.8rem; /* Tamaño para móvil */
+            font-size: 1.3rem; /* Tamaño para móvil */
             color: var(--neon-green);
             text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
             white-space: nowrap;
@@ -128,7 +128,7 @@
             border-right: .15em solid var(--neon-green);
             animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
             margin: 0 auto;
-            display: inline-block;
+            display;
         }
 
         @keyframes typing {
@@ -182,17 +182,19 @@
             border-color: var(--neon-green);
         }
         .command {
-            font-family: 'Fira Code', monospace;
-            background-color: #010409;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            color: var(--neon-green);
-            font-weight: bold;
-            display: block;
-            margin-bottom: 1rem;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
+    font-family: 'Fira Code', monospace;
+    background-color: #010409;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: var(--neon-green);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 1rem;
+    white-space: pre;           /* Mantiene el formato original */
+    overflow-x: auto;           /* Activa scroll horizontal si es necesario */
+    max-width: 100%;            /* Nunca se sale del ancho */
+}
+
         .command-card p { margin-bottom: 1rem; }
         .command-card .example {
             font-style: italic;
